@@ -16,12 +16,12 @@ class MDNSMessage(object):
 		self.authrrs = []
 		self.addrrs = []
 
-	def addQuestion(self, q):
+	def addQuery(self, q):
 		checkClass(q, MDNSQuery)
 		self.questions.append(q)
 		pass
 
-	def addAnswer(self, rr):
+	def addResponse(self, rr):
 		checkClass(rr, MDNSRR)
 		self.flags |= kMDNSFlagResponse # TODO: I believe the presence of an answer automatically makes this a response
 		self.answers.append(rr)
@@ -55,3 +55,15 @@ class MDNSMessage(object):
 			result += rr.toByteArray()
 
 		return result
+
+	def addFlag(self, flag):
+		checkUInt16(flag)
+		self.flags |= flag
+
+	def clearFlag(self, flag):
+		checkUInt16(flag)
+		self.flags &= ~flag
+
+	def send(self):
+		sock = getMDNSSendSocket()
+		sock.send(self.toByteArray())
