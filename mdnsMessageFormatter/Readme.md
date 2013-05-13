@@ -1,0 +1,2 @@
+# MDNS Message Formatting Library
+This library contains classes and supporting methods for generating, formatting, and sending mDNS Protocol messages. This is particularly useful for diagnostics and sercurity testing of mDNS discoverable applications.
