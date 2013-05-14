@@ -22,7 +22,7 @@ The client must create an MDNSQuery and then add it to the MDNSMessage as follow
 
 	m = MDNSMessage()
 	query = MDNSQuery(name, type, class)
-	m.addQuestion(query)
+	m.addQuery(query)
 
 Default values for type and class are kMDNSRRTypeANY and kMDNSRRClassIN by default, respectively.
 
@@ -30,7 +30,7 @@ Default values for type and class are kMDNSRRTypeANY and kMDNSRRClassIN by defau
 Response, authoritative, and additional records are all created using MDNSRR objects. Once the object is created, the object is added with the appropriate MDNSMessage method from the following methods:
 
 ```python
-m.addResponse(responseRR)
+m.addResponseRecord(responseRR)
 m.addAuthoritativeRecord(authRR)
 m.addAdditionalRecord(addRR)
 ```

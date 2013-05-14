@@ -21,7 +21,7 @@ class MDNSMessage(object):
 		self.questions.append(q)
 		pass
 
-	def addResponse(self, rr):
+	def addResponseRecord(self, rr):
 		checkClass(rr, MDNSRR)
 		self.flags |= kMDNSFlagResponse # TODO: I believe the presence of an answer automatically makes this a response
 		self.answers.append(rr)
