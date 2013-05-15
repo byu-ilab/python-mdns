@@ -15,7 +15,19 @@ In addition, the file MDNSCommon.py contains a number of mDNS constants and supp
 ## Using the Library
 
 ### Creating an MDNSMessage
-Each message begins with an MDNSMessage. If no parameters are given to the MDNSMessage constructor, the message is instantiated with a transaction ID of 0 and no flags set.  
+Each message begins with an MDNSMessage. If no parameters are given to the MDNSMessage constructor, the message is instantiated with a transaction ID of 0 and no flags set.
+
+### Setting/Clearing MDNSMessageFlags
+Each MDNSMessage has a 16-bit set of flags. The flags are initially set to 0. In order to set or clear a flag, the methods `MDNSMessage.setFlag(flag)` or `MDNSMessage.clearFlag(flag)` are called. MDNSCommon.py has a set of constant flags with the prefix kMDNSFlag... that can be used. Here is an example of setting and then clearing the "Response" flag:
+
+```python
+m = MDNSMessage()
+# m.flags = 0x0000
+m.setFlag(kMDNSFlagResponse)
+# m.flags = 0x8000
+m.clearFlag(kMDNSFlagResponse)
+# m.flags = 0x0000
+```
 
 ### Adding queries to an MDNSMessage
 The client must create an MDNSQuery and then add it to the MDNSMessage as follows:
@@ -35,13 +47,13 @@ m.addAuthoritativeRecord(authRR)
 m.addAdditionalRecord(addRR)
 ```
 
-**Please Note**: if a response is added to the MDNSMessage, the kMDNSFlagResponse (0x8000) will be set automatically in the message flags.
-MDNSRR subclass objects implicitly specify what type of RR they are. For example, an MDNSRRA object is an MDNSRR object with a record type A. MDNSRR subclass objects require 4 things:
+MDNSRR subclass objects implicitly specify what type of RR they are. For example, an MDNSRRA object is an MDNSRR object with a record type A. MDNSRR subclass objects require 5 things:
 	
 * the record name
 * the record class
 * the record time-to-live (ttl) value
 * the record data (rrdata)
+* the record cache flush bit
 
 The constructor for the MDNSRR subclasses is the same across all of them. For example, instantiation of an MDNSRRA object is done as follows:
 
@@ -59,6 +71,8 @@ __init__(self, rrname, rrclass, rrttl, rrdataArgMap) unbound MDNSRR.MDNSRRSRV me
     'port': uint16,
     'target': a valid hostname string (<hostname>.local.)
 ```
+
+The cache-flush bit is initially set to **FALSE**. To set the cache-flush bit to **TRUE**, the `setCacheFlushBit(True)` is called. Likewise, to clear the bit, `setCacheFlushBit(False)` can be called.
 
 ### Sending an MDNSMessage
 After creating an MDNSMessage and adding the desired entries to the message, calling `MDNSMessage.send()` will format and send the message contents to the mDNS multicast address:

@@ -61,14 +61,14 @@ class MDNSRRPTR(MDNSRR):
 
 class MDNSRRTXT(MDNSRR):
 	def __init__(self, rrname, rrclass, rrttl, rrdataArgMap):
-		""" ## rrdataArgMap keys and value types ##
-		'data': a bytearray or string """
+		""" ## rrdataArgMap: a map of key value pairs. For each pair,
+		a text entry is added to the record in the string form '<key>=<value>' """
 		super(MDNSRRTXT, self).__init__(rrname, kMDNSRRTypeTXT, rrclass, rrttl, rrdataArgMap)
 
 	def formatRRData(self, rrdataArgMap):
 		result = bytearray()
-		for x in rrdataArgMap['data']:
-			result.append(x)
+		for (k, v) in rrdataArgMap.items():
+			result += encodeString(str(k) + "=" + str(v))
 		return result
 
 

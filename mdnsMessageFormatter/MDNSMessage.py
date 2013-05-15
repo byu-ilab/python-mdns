@@ -23,7 +23,6 @@ class MDNSMessage(object):
 
 	def addResponseRecord(self, rr):
 		checkClass(rr, MDNSRR)
-		self.flags |= kMDNSFlagResponse # TODO: I believe the presence of an answer automatically makes this a response
 		self.answers.append(rr)
 		pass
 
@@ -56,7 +55,7 @@ class MDNSMessage(object):
 
 		return result
 
-	def addFlag(self, flag):
+	def setFlag(self, flag):
 		checkUInt16(flag)
 		self.flags |= flag
 

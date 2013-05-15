@@ -139,9 +139,17 @@ def encodeRRName(rrname, pointers=None):
 	sublabels = parseRRNameToSublabels(rrname)
 	result = bytearray()
 	for sublabel in sublabels:
-		result.append(len(sublabel))
-		for char in sublabel:
-			result.append(char)
+		# result.append(len(sublabel))
+		# for char in sublabel:
+		# 	result.append(char)
+		result += encodeString(sublabel)
 	result.append(0) # this isn't used in compression
+	return result
+
+def encodeString(string):
+	result = bytearray()
+	result.append(len(string))
+	for char in string:
+		result.append(char)
 	return result
 
