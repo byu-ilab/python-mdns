@@ -8,7 +8,7 @@ The library is constituted of the following classes:
 * MDNSMessageEntity (abstract base class)
 * MDNSQuery (subclass of MDNSMessageEntity)
 * MDNSRR (an abstract base class for mDNS resource records; subclass of MDNSMessageEntity)
-* subclasses of MDNSRR in the form MDNSRR&amp;type&amp; based on record type (current support allows types A, AAAA, NS, PTR, TXT, and SRV)
+* subclasses of MDNSRR in the form MDNSRR&lt;type&gt; based on record type (current support allows types A, AAAA, NS, PTR, TXT, and SRV)
 
 In addition, the file MDNSCommon.py contains a number of mDNS constants and supportive functions.
 
@@ -18,7 +18,7 @@ In addition, the file MDNSCommon.py contains a number of mDNS constants and supp
 Each message begins with an MDNSMessage. If no parameters are given to the MDNSMessage constructor, the message is instantiated with a transaction ID of 0 and no flags set.
 
 ### Setting/Clearing MDNSMessageFlags
-Each MDNSMessage has a 16-bit set of flags. The flags are initially set to 0. In order to set or clear a flag, the methods `MDNSMessage.setFlag(flag)` or `MDNSMessage.clearFlag(flag)` are called. MDNSCommon.py has a set of constant flags with the prefix kMDNSFlag... that can be used. Here is an example of setting and then clearing the "Response" flag:
+Each MDNSMessage has a 16-bit set of flags. In order to set or clear a flag, the methods `MDNSMessage.setFlag(flag)` or `MDNSMessage.clearFlag(flag)` are called. MDNSCommon.py has a set of constant flags with the prefix kMDNSFlag... that can be used. Here is an example of setting and then clearing the "Response" flag:
 
 ```python
 m = MDNSMessage()
