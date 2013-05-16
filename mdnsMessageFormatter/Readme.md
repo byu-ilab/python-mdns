@@ -50,8 +50,8 @@ m.addAdditionalRecord(addRR)
 MDNSRR subclass objects implicitly specify what type of RR they are. For example, an MDNSRRA object is an MDNSRR object with a record type A. MDNSRR subclass objects require 5 things:
 	
 * the record name
-* the record class
-* the record time-to-live (ttl) value
+* the record class (99% of the time this is kMDNSRRClassIN)
+* the record time-to-live (ttl) value in seconds
 * the record data (rrdata)
 * the record cache flush bit
 
