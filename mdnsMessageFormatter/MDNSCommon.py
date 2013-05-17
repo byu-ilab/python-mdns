@@ -1,11 +1,23 @@
 __author__ = 'crunk'
 
 import socket
+import struct
 
-def getMDNSSendSocket():
-	sock = socket.socket(type=socket.SOCK_DGRAM)
-	sock.connect(("224.0.0.251",5353))
-	return sock
+MDNSIP = "224.0.0.251"
+MDNSPort = 5353
+
+MDNSSock = None
+
+def getMDNSSocket():
+	global MDNSSock
+	if MDNSSock is None:
+		MDNSSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+		MDNSSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+		MDNSSock.bind(('',5353))
+
+		mreq = struct.pack("4sl", socket.inet_aton(MDNSIP), socket.INADDR_ANY)
+		MDNSSock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+	return MDNSSock
 
 
 class ClassException(Exception):
@@ -26,7 +38,7 @@ kMDNSRRTypeNSEC = 47
 kMDNSRRTypeANY = 255
 
 #
-# mDNS rr classes
+#	mDNS rr classes
 #
 kMDNSRRClassIN = 1
 

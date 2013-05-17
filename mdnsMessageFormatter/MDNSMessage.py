@@ -64,5 +64,5 @@ class MDNSMessage(object):
 		self.flags &= ~flag
 
 	def send(self):
-		sock = getMDNSSendSocket()
-		sock.send(self.toByteArray())
+		sock = getMDNSSocket()
+		sock.sendto(self.toByteArray(),(MDNSIP,MDNSPort))
